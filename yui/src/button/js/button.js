@@ -27,12 +27,13 @@ Y.namespace('M.atto_translations').Button = Y.Base.create('button', Y.M.editor_a
         var host = this.get('host');
         var initialvalue = host.textarea.get('value');
         var translationhashregex = /<span data-translationhash[ ]*=[ ]*[\'"]+([a-zA-Z0-9]+)[\'"]+[ ]*>[ ]*<\/span>/g;
+        var unusedhash = this.get('unusedhash');
 
-        if (translationhashregex.exec(initialvalue)) {
+        if (!unusedhash || translationhashregex.exec(initialvalue)) {
             return;
         }
 
-        host.textarea.set('value', "<span data-translationhash='" + this.get('unusedhash') + "'></span>" + initialvalue);
+        host.textarea.set('value', "<span data-translationhash='" + unusedhash + "'></span>" + initialvalue);
         host.updateFromTextArea();
     }
 }, {

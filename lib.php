@@ -38,5 +38,10 @@ function atto_translations_params_for_js($elementid, $options, $fpoptions) {
         $unusedhash = md5(random_string(32));
     }
 
+    // Do not add tranlation hashes to translations.
+    if ($elementid == 'id_substitutetext_editor') {
+        return [];
+    }
+
     return ['unusedhash' => $unusedhash];
 }
