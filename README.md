@@ -2,7 +2,8 @@
 - Unzip the plugin in the moodle .../lib/editor/atto/plugins/ directory.
 
 # To Enable it #
-- Go to "Site Administration &gt;&gt; Plugins &gt;&gt; Text Editors &gt;&gt; Atto HTML editor &gt;&gt; Atto toolbar settings" and add 'translations' to the Toolbar config.
+- Go to "Site Administration &gt;&gt; Plugins &gt;&gt; Text Editors &gt;&gt; Atto HTML editor &gt;&gt; Atto toolbar settings" 
+- Add 'translations' to the Toolbar config.
 
 # To Use it #
 The plugin does not do anything visible, it injects a tag in text that is saved to support the filter_translations plugin.
