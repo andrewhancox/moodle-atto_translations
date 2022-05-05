@@ -22,21 +22,33 @@
  * @copyright 2021, Andrew Hancox
  */
 
-Y.namespace('M.atto_translations').Button = Y.Base.create('button', Y.M.editor_atto.EditorPlugin, [], {
+var translationbuttonobject = {
+    translationhashregex: /<span data-translationhash[ ]*=[ ]*[\'"]+([a-zA-Z0-9]+)[\'"]+[ ]*>[ ]*<\/span>/g,
+    translationhash: null,
     initializer: function () {
         var host = this.get('host');
         var initialvalue = host.textarea.get('value');
-        var translationhashregex = /<span data-translationhash[ ]*=[ ]*[\'"]+([a-zA-Z0-9]+)[\'"]+[ ]*>[ ]*<\/span>/g;
         var unusedhash = this.get('unusedhash');
 
-        if (!unusedhash || translationhashregex.exec(initialvalue)) {
+        var foundtranslationspan = translationbuttonobject.translationhashregex.exec(initialvalue);
+        if (!unusedhash || foundtranslationspan) {
+            translationbuttonobject.translationhash = foundtranslationspan;
             return;
         }
 
-        host.textarea.set('value', "<span data-translationhash='" + unusedhash + "'></span>" + initialvalue);
+        translationbuttonobject.translationhash = "<span data-translationhash='" + unusedhash + "'></span>";
+        host.textarea.set('value', translationbuttonobject.translationhash + initialvalue);
         host.updateFromTextArea();
+
+        host.textarea.closest('form').onsubmit(function() {
+            if (host.textarea.get('value') === translationbuttonobject.translationhash) {
+                host.textarea.set('value', '');
+                host.updateFromTextArea();
+            }
+        });
     }
-}, {
+};
+Y.namespace('M.atto_translations').Button = Y.Base.create('button', Y.M.editor_atto.EditorPlugin, [], translationbuttonobject, {
     ATTRS: {
         unusedhash: {
             value: false
