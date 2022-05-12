@@ -40,12 +40,15 @@ var translationbuttonobject = {
         host.textarea.set('value', translationbuttonobject.translationhash + initialvalue);
         host.updateFromTextArea();
 
-        host.textarea.closest('form').onsubmit(function() {
-            if (host.textarea.get('value') === translationbuttonobject.translationhash) {
-                host.textarea.set('value', '');
-                host.updateFromTextArea();
-            }
-        });
+        var form = host.textarea.ancestor('form');
+        if (form) {
+            form.on('submit', function() {
+                if (host.textarea.get('value') === translationbuttonobject.translationhash) {
+                    host.textarea.set('value', '');
+                    host.updateFromTextArea();
+                }
+            }, this);
+        }
     }
 };
 Y.namespace('M.atto_translations').Button = Y.Base.create('button', Y.M.editor_atto.EditorPlugin, [], translationbuttonobject, {
