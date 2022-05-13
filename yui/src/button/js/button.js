@@ -23,7 +23,7 @@
  */
 
 var translationbuttonobject = {
-    translationhashregex: /<span data-translationhash[ ]*=[ ]*[\'"]+([a-zA-Z0-9]+)[\'"]+[ ]*>[ ]*<\/span>/g,
+    translationhashregex: /<span data-translationhash[ ]*=[ ]*[\'"]+([a-zA-Z0-9]+)[\'"]+[ ]*>[ ]*<\/span>/,
     translationhash: null,
     initializer: function () {
         var host = this.get('host');
