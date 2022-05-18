@@ -26,26 +26,26 @@ YUI.add('moodle-atto_translations-button', function (Y, NAME) {
 
 var translationbuttonobject = {
     translationhashregex: /<span data-translationhash[ ]*=[ ]*[\'"]+([a-zA-Z0-9]+)[\'"]+[ ]*>[ ]*<\/span>/,
-    translationhash: null,
     initializer: function () {
+        var translationhash;
         var host = this.get('host');
         var initialvalue = host.textarea.get('value');
         var unusedhash = this.get('unusedhash');
 
         var foundtranslationspan = translationbuttonobject.translationhashregex.exec(initialvalue);
         if (!unusedhash || foundtranslationspan) {
-            translationbuttonobject.translationhash = foundtranslationspan;
+            translationhash = foundtranslationspan;
             return;
         }
 
-        translationbuttonobject.translationhash = "<span data-translationhash='" + unusedhash + "'></span>";
-        host.textarea.set('value', translationbuttonobject.translationhash + initialvalue);
+        translationhash = "<span data-translationhash='" + unusedhash + "'></span>";
+        host.textarea.set('value', translationhash + initialvalue);
         host.updateFromTextArea();
 
         var form = host.textarea.ancestor('form');
         if (form) {
             form.on('submit', function() {
-                if (host.textarea.get('value') === translationbuttonobject.translationhash) {
+                if (host.textarea.get('value') === translationhash) {
                     host.textarea.set('value', '');
                     host.updateFromTextArea();
                 }
