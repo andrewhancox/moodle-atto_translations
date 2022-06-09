@@ -1,5 +1,6 @@
 # To Install it manually #
 - Unzip the plugin in the moodle .../lib/editor/atto/plugins/ directory.
+- Also install the translation filter from: https://github.com/andrewhancox/moodle-filter_translations/blob/main/README.md
 
 # To Enable it #
 - Go to "Site Administration &gt;&gt; Plugins &gt;&gt; Text Editors &gt;&gt; Atto HTML editor &gt;&gt; Atto toolbar settings" 
