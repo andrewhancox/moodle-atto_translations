@@ -38,7 +38,7 @@ var translationbuttonobject = {
             return;
         }
 
-        translationhash = "<span data-translationhash='" + unusedhash + "'></span>";
+        translationhash = "<span data-translationhash=\"" + unusedhash + "\"></span>";
         host.textarea.set('value', translationhash + initialvalue);
         host.updateFromTextArea();
 
