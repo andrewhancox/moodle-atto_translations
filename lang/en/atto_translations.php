@@ -26,3 +26,4 @@ defined('MOODLE_INTERNAL') || die;
 
 $string['pluginname'] = 'Translations';
 $string['privacy:metadata'] = 'The atto_translations plugin does not store any personal data.';
+$string['replacehash'] = 'Replace content translation hash';

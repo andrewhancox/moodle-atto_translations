@@ -27,6 +27,12 @@ YUI.add('moodle-atto_translations-button', function (Y, NAME) {
 var translationbuttonobject = {
     translationhashregex: /<span data-translationhash[ ]*=[ ]*[\'"]+([a-zA-Z0-9]+)[\'"]+[ ]*>[ ]*<\/span>/,
     initializer: function () {
+        var button = this.addButton({
+            icon: 't/reload',
+            callback: this._replaceHash,
+            title: 'replacehash'
+        });
+
         var translationhash;
         var host = this.get('host');
         var initialvalue = host.textarea.get('value');
@@ -42,6 +48,10 @@ var translationbuttonobject = {
         host.textarea.set('value', translationhash + initialvalue);
         host.updateFromTextArea();
 
+        // TODO: We are adding a new hash, so cannot replace the hash.
+        // Disable the replace hash button.
+        button.setAttribute('disabled', 'disabled');
+
         var form = host.textarea.ancestor('form');
         if (form) {
             form.on('submit', function() {
@@ -51,7 +61,33 @@ var translationbuttonobject = {
                 }
             }, this);
         }
-    }
+    },
+
+     /**
+     * Replace existing translation hash with a new hash value.
+     *
+     * @method _replaceHash
+     * @private
+     */
+     _replaceHash: function() {
+        const alltranslationhashregex = /<span data-translationhash[ ]*=[ ]*[\'"]+([a-zA-Z0-9]+)[\'"]+[ ]*>[ ]*<\/span>/g;
+        var translationhash;
+        var unusedhash = this.get('unusedhash');
+
+        // Get the initial content.
+        var host = this.get('host');
+        var initialvalue = host.textarea.get('value');
+
+        // Remove the old translation span tags.
+        initialvalue = initialvalue.replaceAll(alltranslationhashregex, "");
+
+        // Add new translation span tag.
+        translationhash = "<span data-translationhash=\"" + unusedhash + "\"></span>";
+        host.textarea.set('value', translationhash + initialvalue);
+        host.updateFromTextArea();
+
+        // TODO: Disable the button, since only one hash can be generated??
+    },
 };
 Y.namespace('M.atto_translations').Button = Y.Base.create('button', Y.M.editor_atto.EditorPlugin, [], translationbuttonobject, {
     ATTRS: {
