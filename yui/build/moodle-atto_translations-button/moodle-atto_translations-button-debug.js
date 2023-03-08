@@ -45,9 +45,6 @@ var COMPONENTNAME = 'atto_translations',
         '</div>' +
         '</form>';
 
-
-
-
 var translationbuttonobject = {
     translationhashregex: /<span data-translationhash[ ]*=[ ]*[\'"]+([a-zA-Z0-9]+)[\'"]+[ ]*>[ ]*<\/span>/,
 
@@ -62,7 +59,8 @@ var translationbuttonobject = {
 
     initializer: function () {
         var button = this.addButton({
-            icon: 't/reload',
+            icon: 'icon',
+            iconComponent: 'atto_translations',
             //callback: this._replaceHash,
             callback: this._displayDialogue,
             title: 'replacehash'

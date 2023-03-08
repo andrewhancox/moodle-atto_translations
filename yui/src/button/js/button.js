@@ -57,7 +57,8 @@ var translationbuttonobject = {
 
     initializer: function () {
         var button = this.addButton({
-            icon: 't/reload',
+            icon: 'icon',
+            iconComponent: 'atto_translations',
             //callback: this._replaceHash,
             callback: this._displayDialogue,
             title: 'replacehash'
