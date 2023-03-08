@@ -30,7 +30,11 @@ defined('MOODLE_INTERNAL') || die;
 function atto_translations_strings_for_js() {
     global $PAGE;
 
-    $PAGE->requires->strings_for_js(array('replacehash'), 'atto_translations');
+    $PAGE->requires->strings_for_js([
+        'replacehash',
+        'confirmtext',
+        'confirmation',
+    ], 'atto_translations');
 }
 
 function atto_translations_params_for_js($elementid, $options, $fpoptions) {

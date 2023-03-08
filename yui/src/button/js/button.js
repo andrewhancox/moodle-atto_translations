@@ -22,12 +22,44 @@
  * @copyright 2021, Andrew Hancox
  */
 
+var COMPONENTNAME = 'atto_translations',
+    CSS = {
+        CONFIRMTEXT: 'atto_translations_confirmtext'
+    },
+    SELECTORS = {
+        CONFIRMTEXT: '.atto_translations_confirmtext',
+        SUBMIT: '.submit',
+        CANCEL: '.cancel'
+    },
+    TEMPLATE = '' +
+        '<form class="atto_form">' +
+        '<div class="mb-1">' +
+        '<label for="{{elementid}}_atto_translations_confirmtext">{{get_string "confirmtext" component}}</label>' +
+        '</div>' +
+        '<div class="mdl-align">' +
+        '<br/>' +
+        '<button type="button" class="btn btn-primary submit">{{get_string "yes" "moodle"}}</button> ' +
+        '<button type="button" class="btn btn-secondary cancel">{{get_string "cancel" "moodle"}}</button>' +
+        '</div>' +
+        '</form>';
+
 var translationbuttonobject = {
     translationhashregex: /<span data-translationhash[ ]*=[ ]*[\'"]+([a-zA-Z0-9]+)[\'"]+[ ]*>[ ]*<\/span>/,
+
+    /**
+     * A reference to the dialogue content.
+     *
+     * @property _content
+     * @type Node
+     * @private
+     */
+    _content: null,
+
     initializer: function () {
         var button = this.addButton({
             icon: 't/reload',
-            callback: this._replaceHash,
+            //callback: this._replaceHash,
+            callback: this._displayDialogue,
             title: 'replacehash'
         });
 
@@ -61,16 +93,18 @@ var translationbuttonobject = {
         }
     },
 
-     /**
+    /**
      * Replace existing translation hash with a new hash value.
      *
      * @method _replaceHash
      * @private
      */
-     _replaceHash: function() {
+    _replaceHash: function(e) {
         const alltranslationhashregex = /<span data-translationhash[ ]*=[ ]*[\'"]+([a-zA-Z0-9]+)[\'"]+[ ]*>[ ]*<\/span>/g;
         var translationhash;
         var unusedhash = this.get('unusedhash');
+
+        this._closeDialogue(e);
 
         // Get the initial content.
         var host = this.get('host');
@@ -85,6 +119,59 @@ var translationbuttonobject = {
         host.updateFromTextArea();
 
         // TODO: Disable the button, since only one hash can be generated??
+    },
+
+    /**
+     * Close the dialogue.
+     *
+     * @method _closeDialogue
+     * @private
+     */
+    _closeDialogue: function(e) {
+        e.preventDefault();
+        this.getDialogue({
+            focusAfterHide: null
+        }).hide();
+    },
+
+    /**
+     * Display the confirmation.
+     *
+     * @method _displayDialogue
+     * @private
+     */
+    _displayDialogue: function() {
+        var dialogue = this.getDialogue({
+            headerContent: M.util.get_string('confirm', 'moodle'),
+            width: 'auto',
+            focusAfterHide: true,
+        });
+
+        // Set the dialogue content, and then show the dialogue.
+        dialogue.set('bodyContent', this._getDialogueContent());
+
+        dialogue.show();
+    },
+
+    /**
+     * Generates the content of the dialogue.
+     *
+     * @method _getDialogueContent
+     * @return {Node} Node containing the dialogue content
+     * @private
+     */
+    _getDialogueContent: function() {
+        var template = Y.Handlebars.compile(TEMPLATE);
+
+        this._content = Y.Node.create(template({
+            component: COMPONENTNAME,
+            CSS: CSS
+        }));
+
+        this._content.one(SELECTORS.SUBMIT).on('click', this._replaceHash, this);
+        this._content.one(SELECTORS.CANCEL).on('click', this._closeDialogue, this);
+
+        return this._content;
     },
 };
 Y.namespace('M.atto_translations').Button = Y.Base.create('button', Y.M.editor_atto.EditorPlugin, [], translationbuttonobject, {
