@@ -29,4 +29,4 @@ $string['confirmtext'] = 'Are you sure you want to replace the current translati
 $string['pluginname'] = 'Translations';
 $string['privacy:metadata'] = 'The atto_translations plugin does not store any personal data.';
 $string['replacehash'] = 'Replace content translation hash';
-$string['translations:replacehash'] =  'Replace translation hash key';
+$string['translations:replacehash'] = 'Replace translation hash key';

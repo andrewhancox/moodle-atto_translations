@@ -25,8 +25,6 @@
 
 use filter_translations\translation;
 
-defined('MOODLE_INTERNAL') || die;
-
 function atto_translations_strings_for_js() {
     global $PAGE;
 
@@ -43,7 +41,8 @@ function atto_translations_params_for_js($elementid, $options, $fpoptions) {
     $unusedhash = md5(random_string(32));
 
     // Do our best to make sure it's unique.
-    while (!empty(translation::get_record(['md5key' => $unusedhash])) || !empty(translation::get_record(['lastgeneratedhash' => $unusedhash]))) {
+    while (!empty(translation::get_record(['md5key' => $unusedhash])) ||
+            !empty(translation::get_record(['lastgeneratedhash' => $unusedhash]))) {
         $unusedhash = md5(random_string(32));
     }
 

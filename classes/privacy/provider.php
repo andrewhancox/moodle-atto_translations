@@ -24,8 +24,6 @@
 
 namespace atto_translations\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for atto_translations implementing null_provider.
  *
