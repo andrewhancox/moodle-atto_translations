@@ -38,6 +38,8 @@ function atto_translations_strings_for_js() {
 }
 
 function atto_translations_params_for_js($elementid, $options, $fpoptions) {
+    global $PAGE;
+
     $unusedhash = md5(random_string(32));
 
     // Do our best to make sure it's unique.
@@ -50,5 +52,11 @@ function atto_translations_params_for_js($elementid, $options, $fpoptions) {
         return [];
     }
 
-    return ['unusedhash' => $unusedhash];
+    // Should the user see the replace hash button?
+    $showreplacebutton = false;
+    if (has_capability('atto/translations:replacehash', $PAGE->context)) {
+        $showreplacebutton = true;
+    }
+
+    return ['unusedhash' => $unusedhash, 'showreplacebutton' => $showreplacebutton];
 }

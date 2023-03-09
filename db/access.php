@@ -15,18 +15,23 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * English lang strings
- * @package   atto_translations
- * @author    Mark Sharp <m.sharp@chi.ac.uk>
- * @copyright 2017 University of Chichester {@link www.chi.ac.uk}
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Plugin capabilities
+ *
+ * @package    atto_translations
+ * @copyright  2023 Rajneel Totaram <rajneel.totaram@moodle.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
+defined('MOODLE_INTERNAL') || die();
 
-$string['confirmation'] = 'Replace translation hash?';
-$string['confirmtext'] = 'Are you sure you want to replace the current translation hash?';
-$string['pluginname'] = 'Translations';
-$string['privacy:metadata'] = 'The atto_translations plugin does not store any personal data.';
-$string['replacehash'] = 'Replace content translation hash';
-$string['translations:replacehash'] =  'Replace translation hash key';
+$capabilities = array(
+    'atto/translations:replacehash' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => array(
+            'coursecreator' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW
+        )
+    )
+);

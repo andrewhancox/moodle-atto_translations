@@ -56,13 +56,17 @@ var translationbuttonobject = {
     _content: null,
 
     initializer: function () {
-        var button = this.addButton({
-            icon: 'icon',
-            iconComponent: 'atto_translations',
-            //callback: this._replaceHash,
-            callback: this._displayDialogue,
-            title: 'replacehash'
-        });
+        var button = null;
+        // Should the user see the replace hash button?
+        if (this.get('showreplacebutton')) {
+            button = this.addButton({
+                icon: 'icon',
+                iconComponent: 'atto_translations',
+                //callback: this._replaceHash,
+                callback: this._displayDialogue,
+                title: 'replacehash'
+            });
+        }
 
         var translationhash;
         var host = this.get('host');
@@ -81,7 +85,9 @@ var translationbuttonobject = {
 
         // TODO: We are adding a new hash, so cannot replace the hash.
         // Disable the replace hash button.
-        button.setAttribute('disabled', 'disabled');
+        if (button != null) {
+            button.setAttribute('disabled', 'disabled');
+        }
 
         var form = host.textarea.ancestor('form');
         if (form) {
@@ -179,6 +185,9 @@ Y.namespace('M.atto_translations').Button = Y.Base.create('button', Y.M.editor_a
     ATTRS: {
         unusedhash: {
             value: false
-        }
+        },
+        showreplacebutton: {
+			value: false
+		}
     }
 });
