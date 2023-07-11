@@ -25,16 +25,24 @@
 
 use filter_translations\translation;
 
-defined('MOODLE_INTERNAL') || die;
-
 function atto_translations_strings_for_js() {
+    global $PAGE;
+
+    $PAGE->requires->strings_for_js([
+        'replacehash',
+        'confirmtext',
+        'confirmation',
+    ], 'atto_translations');
 }
 
 function atto_translations_params_for_js($elementid, $options, $fpoptions) {
+    global $PAGE;
+
     $unusedhash = md5(random_string(32));
 
     // Do our best to make sure it's unique.
-    while (!empty(translation::get_record(['md5key' => $unusedhash])) || !empty(translation::get_record(['lastgeneratedhash' => $unusedhash]))) {
+    while (!empty(translation::get_record(['md5key' => $unusedhash])) ||
+            !empty(translation::get_record(['lastgeneratedhash' => $unusedhash]))) {
         $unusedhash = md5(random_string(32));
     }
 
@@ -43,5 +51,11 @@ function atto_translations_params_for_js($elementid, $options, $fpoptions) {
         return [];
     }
 
-    return ['unusedhash' => $unusedhash];
+    // Should the user see the replace hash button?
+    $showreplacebutton = false;
+    if (has_capability('atto/translations:replacehash', $PAGE->context)) {
+        $showreplacebutton = true;
+    }
+
+    return ['unusedhash' => $unusedhash, 'showreplacebutton' => $showreplacebutton];
 }

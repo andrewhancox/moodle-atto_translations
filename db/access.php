@@ -15,18 +15,23 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package atto_translations
- * @author Andrew Hancox <andrewdchancox@googlemail.com>
- * @author Open Source Learning <enquiries@opensourcelearning.co.uk>
- * @link https://opensourcelearning.co.uk
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2021, Andrew Hancox
+ * Plugin capabilities
+ *
+ * @package    atto_translations
+ * @copyright  2023 Rajneel Totaram <rajneel.totaram@moodle.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
+defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'atto_translations';
-$plugin->version   = 2023030900;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2020061511;        // Requires this Moodle version.
-$plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = ['filter_translations' => 2021110901];
+$capabilities = array(
+    'atto/translations:replacehash' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => array(
+            'coursecreator' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW
+        )
+    )
+);
